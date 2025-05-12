@@ -103,10 +103,10 @@ const Produto = {
 };
 
 // Exemplo de função para buscar produtos por empresa_id
-Produto.buscarPorEmpresaId = (empresa_id) => {
+Produto.buscarPorEmpresaId = (empresa_slug) => {
     return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM produtos WHERE empresa_id = ?';
-        db.query(query, [empresa_id], (err, results) => {
+        const query = 'SELECT p.* FROM produtos p inner join empresas e on p.empresa_id = e.id WHERE e.slug = ?';
+        db.query(query, [empresa_slug], (err, results) => {
             if (err) {
                 console.error('Erro ao buscar produtos:', err);
                 return reject(err);

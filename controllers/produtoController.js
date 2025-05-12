@@ -100,9 +100,9 @@ exports.getProdutoById = async (req, res) => {
 
 // Buscar produtos por empresa_id
 exports.getProdutosByEmpresaId = async (req, res) => {
-  const empresa_id = req.params.id;
+  const empresa_slug = req.params.slug;
   try {
-    const produtos = await Produto.buscarPorEmpresaId(empresa_id);  // Método para buscar produtos por empresa_id
+    const produtos = await Produto.buscarPorEmpresaId(empresa_slug);  // Método para buscar produtos por empresa_id
     if (!produtos || produtos.length === 0) {
       return res.status(404).json({ mensagem: 'Nenhum produto encontrado para esta empresa' });
     }

@@ -4,7 +4,7 @@ const produtoController = require('../controllers/produtoController');
 const autenticarEmpresa = require('../utils/AutenticarEmpresa');
 
 // ✅ Rota pública - sem autenticação
-router.get('/:id', produtoController.getProdutosByEmpresaId);
+router.get('/:slug', produtoController.getProdutosByEmpresaId);
 
 // 🔒 Rota protegida - com autenticação
 router.post('/criar', autenticarEmpresa, produtoController.criarProduto);

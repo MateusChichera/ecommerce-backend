@@ -1,5 +1,5 @@
 const Empresa = require('../models/Empresa.js');
-
+const { gerarSlug } = require('../utils/slug.js');
 
 
 //Criar uma nova empresa
@@ -13,7 +13,9 @@ exports.criarEmpresa = async (req, res) => {
       return res.status(400).json({ mensagem: 'Razão social, nome fantasia, CNPJ, telefone e endereço são obrigatórios' });
 
     }
-
+    //criar o slug
+     
+    const slug = gerarSlug(nome_fantasia, cnpj);
     // Criar a empresa
     const resultado = await Empresa.criar({
         id_erp,
@@ -29,7 +31,8 @@ exports.criarEmpresa = async (req, res) => {
         uf,
         cep,
         horario_funcionamento,
-        taxa_entrega
+        taxa_entrega,
+        slug
     });
 
     res.status(201).json({

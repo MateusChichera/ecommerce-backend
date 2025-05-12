@@ -3,10 +3,10 @@ const crypto = require('crypto'); // Para gerar o client_id e client_secret de f
 
 const Empresa = {
   // Cadastrar uma nova empresa
-   criar:({id_erp, razao_social, nome_fantasia, cnpj, telefone, endereco, numero, complemento, bairro, cidade, uf, cep, horario_funcionamento, taxa_entrega = 0 }) => {
+   criar:({id_erp, razao_social, nome_fantasia, cnpj, telefone, endereco, numero, complemento, bairro, cidade, uf, cep, horario_funcionamento, taxa_entrega = 0,slug }) => {
   return new Promise((resolve, reject) => {
     // Verificar se os campos obrigatórios estão presentes
-    if (!razao_social || !nome_fantasia || !cnpj || !telefone || !endereco || !horario_funcionamento) {
+    if (!razao_social || !nome_fantasia || !cnpj || !telefone || !endereco || !horario_funcionamento || !slug) {
       return reject(new Error('Campos obrigatórios não preenchidos'));
     }
 
@@ -16,11 +16,11 @@ const Empresa = {
     console.log('client_secret:', client_secret);
 
     const query = `
-      INSERT INTO empresas (id_erp, razao_social, nome_fantasia, cnpj, telefone, endereco, numero, complemento, bairro, cidade, uf, cep, horario_funcionamento, taxa_entrega, client_secret)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO empresas (id_erp, razao_social, nome_fantasia, cnpj, telefone, endereco, numero, complemento, bairro, cidade, uf, cep, horario_funcionamento, taxa_entrega,slug, client_secret)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)
     `;
 
-    db.query(query, [id_erp, razao_social, nome_fantasia, cnpj, telefone, endereco, numero, complemento, bairro, cidade, uf, cep, horario_funcionamento, taxa_entrega, client_secret], (err, result) => {
+    db.query(query, [id_erp, razao_social, nome_fantasia, cnpj, telefone, endereco, numero, complemento, bairro, cidade, uf, cep, horario_funcionamento, taxa_entrega,slug, client_secret], (err, result) => {
       if (err) {
         console.error('Erro na execução da query:', err);
         return reject(err);
@@ -41,6 +41,7 @@ const Empresa = {
         cep,
         horario_funcionamento,
         taxa_entrega,
+        slug,
         client_secret
       });
     });
