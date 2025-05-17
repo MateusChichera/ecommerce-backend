@@ -70,4 +70,14 @@ exports.getEmpresaById = async (req, res) => {
     console.error('Erro ao buscar empresa:', error);
     res.status(500).json({ mensagem: 'Erro ao buscar empresa', erro: error.message });
   }
+
 }
+ exports.getEmpresas = async (req, res) => {
+    try{
+      const empresa = await Empresa.buscarTodas();
+      res.status(200).json(empresa);
+    }catch(error){
+      console.error('Erro ao listar empresas:', error);
+      res.status(500).json({ mensagem: 'Erro ao listar empresas', erro: error.message });
+    }
+  }

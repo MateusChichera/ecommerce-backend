@@ -93,9 +93,9 @@ const Empresa = {
   },
 
   // Listar todas as empresas
-  listarTodas: () => {
+  buscarTodas: () => {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM empresas', (err, results) => {
+      db.query('SELECT id,razao_social,nome_fantasia FROM empresas', (err, results) => {
         if (err) return reject(err);
         resolve(results);
       });

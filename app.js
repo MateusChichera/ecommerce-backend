@@ -1,21 +1,27 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const app = express();
 const cors = require('cors');
+const app = express();
+
 const db = require('./config/db');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-// Importando os métodos de autenticação da pasta utils
 const { verificarToken } = require('./utils/auth');
 const autenticarEmpresa = require('./utils/AutenticarEmpresa');
-
 
 // Carregar variáveis de ambiente
 dotenv.config();
 
-// Middleware para analisar JSON
+// Habilita CORS para permitir requisições do frontend
+app.use(cors({
+  origin: 'http://localhost:3001',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true
+}));
+
+// Middlewares padrão
 app.use(bodyParser.json());
 app.use(express.json());
 
@@ -25,17 +31,12 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 const empresaRoutes = require('./routes/empresaRoutes');
 const produtoRoutes = require('./routes/produtoRoutes');
 
-// Rota de login (não protegida)
 app.use('/api/login', LoginRoutes);
-
-// Rotas de usuário (protegidas com o middleware verificarToken)
 app.use('/api/usuario', verificarToken, usuarioRoutes);
 app.use('/api/empresa', verificarToken, empresaRoutes);
 app.use('/api/produto', produtoRoutes);
 
-// Definindo a porta
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
